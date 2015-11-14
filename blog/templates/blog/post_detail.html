@@ -1,0 +1,57 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+{% block title %} Post Detail {% endblock %}
+
+{% block urlstyle %}style="background-image:  url('{% static 'img/home-bg.jpg' %}')" {% endblock %}
+
+{% block pageheader %}
+<div class="post-heading">
+    <h1>{{ post.title }}</h1>
+    <span class="meta">Posted by <a href="{% url 'about' %}">Atul Kumar Gupta</a> on {{ post.published_date }}</span>
+</div>
+{% endblock %}
+
+{% block maincontent %}
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                <div class="post">
+                    {% if post.published_date %}
+                    {% else %}
+                        <a class="btn btn-warning" href="{% url "blog.views.post_publish" pk=post.pk %}">Publish</a>
+                    {% endif %}
+                     <a class="btn btn-warning" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                     <a class="btn btn-warning" href="{% url "post_remove" pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                     <p>{{ post.text|linebreaks }}</p>
+                </div>
+
+            <hr>
+            <a class="btn btn-warning" href="{% url "add_comment_to_post" pk=post.pk %}">Add comment</a>
+            {% for comment in post.comments.all %}
+            {% if user.is_authenticated or comment.approved_comment %}
+            <div class="comment">
+                <div class="date">
+                    {{ comment.created_date }}
+                    {% if not comment.approved_comment %}
+                        <a class="btn btn-warning" href="{% url "comment_remove" pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                        <a class="btn btn-warning" href="{% url "comment_approve" pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+                    {% endif %}
+                </div>
+                 <strong>{{ comment.author }}</strong>
+                 <p>{{ comment.text|linebreaks }}</p>
+            </div>
+            {% endif %}
+            {% empty %}
+            <p>No comments here yet :(</p>
+            {% endfor %}
+           
+            </div>
+        </div>
+    </div>
+</article>
+<hr>
+{% endblock %}
+
+

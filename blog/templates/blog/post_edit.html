@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+{% block title %}Post Edit {% endblock %}
+
+{% block urlstyle %}style="background-image:  url('{% static 'img/home-bg.jpg' %}')" {% endblock %}
+
+{% block pageheader %}
+    <div class="site-heading">
+        <h1>New Post</h1>
+        <hr class="small">
+    </div>
+{% endblock %}
+
+{% block maincontent %}
+	<div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            	<form method="POST" class="post-form">{% csrf_token %}
+				{{form.as_p}}
+				<button type="submit" class= "save btn btn-warning">Save</button>
+				</form>	
+ 			</div>
+        </div>
+    </div>
+    <hr>
+{% endblock %}
+	

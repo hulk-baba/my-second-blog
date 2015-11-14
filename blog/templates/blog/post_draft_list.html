@@ -1,0 +1,31 @@
+{% extends "blog/base.html" %}
+{% load staticfiles %}
+{% block title %}Post Draft List {% endblock %}
+
+{% block urlstyle %}style="background-image:  url('{% static 'img/home-bg.jpg' %}')" {% endblock %}
+
+{% block pageheader %}
+    <div class="site-heading">
+        <h1>Draft List </h1>
+        <hr class="small">
+    </div>
+{% endblock %}
+
+{% block maincontent %}
+	<div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+				{% for post in posts %}
+				<div class="post">
+				<p class="date">created : {{post.created_date|date:'d-m-Y'}}</p>
+				<h1><a href="{% url "blog.views.post_detail" pk=post.pk %}">{{ post.title }}</a>	</h1>
+				<p>{{ post.text|truncatechars:200 }}</p>
+				</div>
+				{% endfor %}
+			</div>
+        </div>
+    </div>
+    <hr>
+{% endblock %}
+
+   
